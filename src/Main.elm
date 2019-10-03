@@ -138,10 +138,26 @@ showStep step =
     tr []
         [ td [] [ text (String.fromInt step.shiftSteps) ]
         , td [] [ text (String.fromInt step.step) ]
-        , td [] [ text (Debug.toString step.action) ]
+        , td [] [ text (toString step.action) ]
         , td [] [ showInt step.product (step.bits * 2) ]
-        , td [] [ text (Debug.toString step.additional) ]
+        , td [] [ text (String.fromInt step.additional) ]
         ]
+
+
+toString : Action -> String
+toString action =
+    case action of
+        Init ->
+            "Init"
+
+        Add ->
+            "Add"
+
+        Sub ->
+            "Sub"
+
+        Shift ->
+            "Shift"
 
 
 getBit : Int -> Int -> Int
