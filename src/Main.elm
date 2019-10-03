@@ -3,6 +3,7 @@ module Main exposing (..)
 import Bitwise
 import Browser
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
@@ -83,14 +84,21 @@ view model =
             }
     in
     div []
-        [ div [] [ text "A=", text (String.fromInt model.a) ]
+        [ h1 [] [ text "Visualization of Booth Multiplication" ]
+        , div []
+            [ text "A = "
+            , input [ onInput InputA, value (String.fromInt model.a) ] []
+            ]
         , showInt model.a model.bits
-        , input [ onInput InputA ] []
-        , div [] [ text "B=", text (String.fromInt model.b) ]
+        , div []
+            [ text "B = "
+            , input [ onInput InputB, value (String.fromInt model.b) ] []
+            ]
         , showInt model.b model.bits
-        , input [ onInput InputB ] []
-        , div [] [ text "Bits=", text (String.fromInt model.bits) ]
-        , input [ onInput InputBits ] []
+        , div []
+            [ text "Bits = "
+            , input [ onInput InputBits, value (String.fromInt model.bits) ] []
+            ]
         , showSteps initStep model.a model.bits
         ]
 
