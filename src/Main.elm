@@ -111,6 +111,7 @@ showSteps initStep a bits =
             [ thead []
                 [ tr []
                     [ th [] [ text "Step" ]
+                    , th [] [ text "SubStep" ]
                     , th [] [ text "Action" ]
                     , th [] [ text "Partial Product" ]
                     , th [] [ text "Additional Bit" ]
@@ -135,7 +136,8 @@ allSteps initStep a bits =
 showStep : Step -> Html Msg
 showStep step =
     tr []
-        [ td [] [ text (String.fromInt step.step) ]
+        [ td [] [ text (String.fromInt step.shiftSteps) ]
+        , td [] [ text (String.fromInt step.step) ]
         , td [] [ text (Debug.toString step.action) ]
         , td [] [ showInt step.product (step.bits * 2) ]
         , td [] [ text (Debug.toString step.additional) ]
