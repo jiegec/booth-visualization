@@ -45,6 +45,7 @@ init =
 type Msg
     = InputA String
     | InputB String
+    | InputBits String
 
 
 update : Msg -> Model -> Model
@@ -55,6 +56,13 @@ update msg model =
 
         InputB b ->
             { model | b = clampInput (Maybe.withDefault 0 (String.toInt b)) model.bits }
+
+        InputBits input ->
+            let
+                bits =
+                    clamp 1 15 (Maybe.withDefault 0 (String.toInt input))
+            in
+            { a = clampInput model.a bits, b = clampInput model.b bits, bits = bits }
 
 
 clampInput : Int -> Int -> Int
@@ -81,6 +89,8 @@ view model =
         , div [] [ text "B=", text (String.fromInt model.b) ]
         , showInt model.b model.bits
         , input [ onInput InputB ] []
+        , div [] [ text "Bits=", text (String.fromInt model.bits) ]
+        , input [ onInput InputBits ] []
         , showSteps initStep model.a model.bits
         ]
 
