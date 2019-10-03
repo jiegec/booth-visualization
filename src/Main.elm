@@ -3,6 +3,7 @@ module Main exposing (..)
 import Bitwise
 import Browser
 import Html exposing (..)
+import Html.Events exposing (..)
 
 
 main =
@@ -42,14 +43,18 @@ init =
 
 
 type Msg
-    = None
+    = InputA String
+    | InputB String
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        None ->
-            model
+        InputA a ->
+            { model | a = Maybe.withDefault 0 (String.toInt a) }
+
+        InputB b ->
+            { model | b = Maybe.withDefault 0 (String.toInt b) }
 
 
 view : Model -> Html Msg
@@ -65,8 +70,12 @@ view model =
             }
     in
     div []
-        [ showInt model.a model.bits
+        [ div [] [ text "A=", text (String.fromInt model.a) ]
+        , showInt model.a model.bits
+        , input [ onInput InputA ] []
+        , div [] [ text "B=", text (String.fromInt model.b) ]
         , showInt model.b model.bits
+        , input [ onInput InputB ] []
         , showSteps initStep model.a model.bits
         ]
 
@@ -78,16 +87,24 @@ showInt number bits =
 
 showSteps : Step -> Int -> Int -> Html Msg
 showSteps initStep a bits =
-    table []
-        [ thead []
-            [ tr []
-                [ th [] [ text "Step" ]
-                , th [] [ text "Action" ]
-                , th [] [ text "Partial Product" ]
-                , th [] [ text "Additional Bit" ]
+    let
+        steps =
+            allSteps initStep a bits
+    in
+    div []
+        [ table []
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Step" ]
+                    , th [] [ text "Action" ]
+                    , th [] [ text "Partial Product" ]
+                    , th [] [ text "Additional Bit" ]
+                    ]
                 ]
+            , tbody [] (List.map (\s -> showStep s) steps)
             ]
-        , tbody [] (List.map (\s -> showStep s) (allSteps initStep a bits))
+        , text "Answer is "
+        , text (String.fromInt (Maybe.withDefault 0 (Maybe.map (\step -> step.product) (List.head (List.drop (List.length steps - 1) steps)))))
         ]
 
 
