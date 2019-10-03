@@ -51,10 +51,15 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         InputA a ->
-            { model | a = Maybe.withDefault 0 (String.toInt a) }
+            { model | a = clampInput (Maybe.withDefault 0 (String.toInt a)) model.bits }
 
         InputB b ->
-            { model | b = Maybe.withDefault 0 (String.toInt b) }
+            { model | b = clampInput (Maybe.withDefault 0 (String.toInt b)) model.bits }
+
+
+clampInput : Int -> Int -> Int
+clampInput input bits =
+    clamp (0 - Bitwise.shiftLeftBy bits 1 // 2) (Bitwise.shiftLeftBy bits 1 // 2 - 1) input
 
 
 view : Model -> Html Msg
