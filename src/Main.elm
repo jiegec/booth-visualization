@@ -78,7 +78,17 @@ showInt number bits =
 
 showSteps : Step -> Int -> Int -> Html Msg
 showSteps initStep a bits =
-    div [] (List.map (\s -> showStep s) (allSteps initStep a bits))
+    table []
+        [ thead []
+            [ tr []
+                [ th [] [ text "Step" ]
+                , th [] [ text "Action" ]
+                , th [] [ text "Partial Product" ]
+                , th [] [ text "Additional Bit" ]
+                ]
+            ]
+        , tbody [] (List.map (\s -> showStep s) (allSteps initStep a bits))
+        ]
 
 
 allSteps : Step -> Int -> Int -> List Step
@@ -92,11 +102,11 @@ allSteps initStep a bits =
 
 showStep : Step -> Html Msg
 showStep step =
-    div []
-        [ text (String.fromInt step.step)
-        , text (Debug.toString step.action)
-        , showInt step.product (step.bits * 2)
-        , text (Debug.toString step.additional)
+    tr []
+        [ td [] [ text (String.fromInt step.step) ]
+        , td [] [ text (Debug.toString step.action) ]
+        , td [] [ showInt step.product (step.bits * 2) ]
+        , td [] [ text (Debug.toString step.additional) ]
         ]
 
 
