@@ -100,6 +100,20 @@ view model =
             , input [ onInput InputBits, value (String.fromInt model.bits) ] []
             ]
         , showSteps initStep model.a model.bits
+        , p [] []
+        , div []
+            [ text "Algorithm:"
+            , ul [] [ text "Partial Product is initialized to B (zero extension)." ]
+            , ul [] [ text "For each step after Init or Shift, check the LSB of Partial Product and Additional Bit to determine the next step." ]
+            , ul [] [ text "Add or Substract A shifted by Bits or Shift again." ]
+            , ul [] [ text "Repeat until Shift Bits-times." ]
+            ]
+        , p [] []
+        , div []
+            [ text "Caveats:"
+            , ul [] [ text "Partial Product has an additional sign bit to handle A = -2^{n-1} case." ]
+            , ul [] [ text "Step column is counted by the number of Shift steps." ]
+            ]
         ]
 
 
@@ -119,7 +133,7 @@ showSteps initStep a bits =
             [ thead []
                 [ tr []
                     [ th [] [ text "Step" ]
-                    , th [] [ text "SubStep" ]
+                    , th [] [ text "Sub Step" ]
                     , th [] [ text "Action" ]
                     , th [] [ text "Partial Product" ]
                     , th [] [ text "Additional Bit" ]
