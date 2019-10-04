@@ -147,7 +147,7 @@ showStep step =
         [ td [] [ text (String.fromInt step.shiftSteps) ]
         , td [] [ text (String.fromInt step.step) ]
         , td [] [ text (toString step.action) ]
-        , td [] [ showInt step.product (step.bits * 2) ]
+        , td [] [ showInt step.product (step.bits * 2 + 1) ]
         , td [] [ text (String.fromInt step.additional) ]
         ]
 
