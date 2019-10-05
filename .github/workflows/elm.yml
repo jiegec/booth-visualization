@@ -13,8 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build
-      run: elm make src/Main.elm --optimize --output=build/elm.js
-      run: cp index.html build/
+      run:
+        - elm make src/Main.elm --optimize --output=build/elm.js
+        - cp index.html build/
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@2.0.2
       env:
