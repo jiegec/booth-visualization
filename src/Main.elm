@@ -118,7 +118,7 @@ view model =
 
 showInt : Int -> Int -> Html Msg
 showInt number bits =
-    div [] (List.map (\i -> text (String.fromInt (getBit number i))) (List.reverse (List.range 0 (bits - 1))))
+    div [style "font-family" "monospace"] (List.map (\i -> text (String.fromInt (getBit number i))) (List.reverse (List.range 0 (bits - 1))))
 
 
 showSteps : Step -> Int -> Int -> Html Msg
