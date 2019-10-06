@@ -101,24 +101,28 @@ view model =
             ]
         , showSteps initStep model.a model.bits
         , p [] []
-        , details [] [
-            summary [] [text "Algorithm"]
-            , ul [] [ text "Partial Product is initialized to B (zero extension)." ]
-            , ul [] [ text "For each step after Init or Shift, check the LSB of Partial Product and Additional Bit to determine the next step." ]
-            , ul [] [ text "Add or Substract A shifted by Bits or Shift again." ]
-            , ul [] [ text "Repeat until Shift Bits-times." ]
-        ]
-        , details [] [
-            summary [] [text "Caveats"]
-            , ul [] [ text "Partial Product has an additional sign bit to handle A = -2^{n-1} case." ]
-            , ul [] [ text "Step column is counted by the number of Shift steps." ]
+        , details []
+            [ summary [] [ text "Algorithm" ]
+            , ol []
+                [ li [] [ text "Partial Product is initialized to B (zero extension)." ]
+                , li [] [ text "For each step after Init or Shift, check the LSB of Partial Product and Additional Bit to determine the next step." ]
+                , li [] [ text "Add or Substract A shifted by Bits or Shift again." ]
+                , li [] [ text "Repeat until Shift Bits-times." ]
+                ]
+            ]
+        , details []
+            [ summary [] [ text "Caveats" ]
+            , ol []
+                [ li [] [ text "Partial Product has an additional sign bit to handle A = -2^{n-1} case." ]
+                , li [] [ text "Step column is counted by the number of Shift steps." ]
+                ]
             ]
         ]
 
 
 showInt : Int -> Int -> Html Msg
 showInt number bits =
-    div [style "font-family" "monospace"] (List.map (\i -> text (String.fromInt (getBit number i))) (List.reverse (List.range 0 (bits - 1))))
+    div [ style "font-family" "monospace" ] (List.map (\i -> text (String.fromInt (getBit number i))) (List.reverse (List.range 0 (bits - 1))))
 
 
 showSteps : Step -> Int -> Int -> Html Msg
