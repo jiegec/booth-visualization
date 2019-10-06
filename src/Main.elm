@@ -13,7 +13,9 @@ main =
 
 type alias Model =
     { a : Int
+    , inputA : String
     , b : Int
+    , inputB : String
     , bits : Int
     }
 
@@ -38,7 +40,9 @@ type alias Step =
 init : Model
 init =
     { a = 3
+    , inputA = "3"
     , b = -7
+    , inputB = "-7"
     , bits = 5
     }
 
@@ -53,17 +57,17 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         InputA a ->
-            { model | a = clampInput (Maybe.withDefault 0 (String.toInt a)) model.bits }
+            { model | inputA = a, a = clampInput (Maybe.withDefault 0 (String.toInt a)) model.bits }
 
         InputB b ->
-            { model | b = clampInput (Maybe.withDefault 0 (String.toInt b)) model.bits }
+            { model | inputB = b, b = clampInput (Maybe.withDefault 0 (String.toInt b)) model.bits }
 
         InputBits input ->
             let
                 bits =
                     clamp 1 15 (Maybe.withDefault 0 (String.toInt input))
             in
-            { a = clampInput model.a bits, b = clampInput model.b bits, bits = bits }
+            { model | a = clampInput model.a bits, b = clampInput model.b bits }
 
 
 clampInput : Int -> Int -> Int
@@ -87,12 +91,14 @@ view model =
         [ h1 [] [ text "Visualization of Booth Multiplication" ]
         , div []
             [ text "A = "
-            , input [ onInput InputA, value (String.fromInt model.a) ] []
+            , text (String.fromInt model.a)
+            , input [ onInput InputA, value model.inputA ] []
             ]
         , showInt model.a model.bits
         , div []
             [ text "B = "
-            , input [ onInput InputB, value (String.fromInt model.b) ] []
+            , text (String.fromInt model.b)
+            , input [ onInput InputB, value model.inputB ] []
             ]
         , showInt model.b model.bits
         , div []
@@ -101,20 +107,20 @@ view model =
             ]
         , showSteps initStep model.a model.bits
         , p [] []
-        , details []
+        , details [ attribute "open" "" ]
             [ summary [] [ text "Algorithm" ]
             , ol []
-                [ li [] [ text "Partial Product is initialized to B (zero extension)." ]
-                , li [] [ text "For each step after Init or Shift, check the LSB of Partial Product and Additional Bit to determine the next step." ]
-                , li [] [ text "Add or Substract A shifted by Bits or Shift again." ]
-                , li [] [ text "Repeat until Shift Bits-times." ]
+                [ li [] [ text "`Partial Product` is initialized to `B` (zero extension)." ]
+                , li [] [ text "For each step after `Init` or `Shift`, check the LSB of `Partial Product` and `Additional Bit` to determine the next step." ]
+                , li [] [ text "`Add` or `Substract` `A` shifted by `Bits` or `Shift` again." ]
+                , li [] [ text "Repeat until `Shift` `Bits`-times." ]
                 ]
             ]
         , details []
             [ summary [] [ text "Caveats" ]
             , ol []
-                [ li [] [ text "Partial Product has an additional sign bit to handle A = -2^{n-1} case." ]
-                , li [] [ text "Step column is counted by the number of Shift steps." ]
+                [ li [] [ text "`Partial Product` has an additional sign bit to handle `A` = -2^{n-1} case." ]
+                , li [] [ text "`Step` column is counted by the number of `Shift` steps." ]
                 ]
             ]
         ]
