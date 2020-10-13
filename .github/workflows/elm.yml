@@ -18,6 +18,8 @@ jobs:
       run: elm make src/Main.elm --optimize --output=build/elm.js
     - name: Copy index.html
       run: cp index.html build/
+    - name: Install git
+      run: apk add --no-cache git
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@3.6.2
       with:
