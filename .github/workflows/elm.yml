@@ -19,7 +19,7 @@ jobs:
     - name: Copy index.html
       run: cp index.html build/
     - name: Install git
-      run: apk add --no-cache git
+      run: apk add --no-cache git rsync
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@3.6.2
       with:
