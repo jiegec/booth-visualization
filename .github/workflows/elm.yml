@@ -20,7 +20,7 @@ jobs:
       run: cp index.html build/
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@3.6.2
-      env:
+      with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: build
