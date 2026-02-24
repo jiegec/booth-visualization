@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-	<title>Booth Visualization</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualization of Booth Multiplication</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    
+<script type="module">
+import init, * as bindings from '/booth-visualization/booth-visualization-f636d8a13bbadaad.js';
+const wasm = await init({ module_or_path: '/booth-visualization/booth-visualization-f636d8a13bbadaad_bg.wasm' });
 
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+<link rel="modulepreload" href="/booth-visualization/booth-visualization-f636d8a13bbadaad.js" crossorigin="anonymous" integrity="sha384-n+f+0visn4XEcG+XdUTYLfL7KpumFNUqYXtUmfFzmwAKH/NJGwcns/tdSwE2Mu59"><link rel="preload" href="/booth-visualization/booth-visualization-f636d8a13bbadaad_bg.wasm" crossorigin="anonymous" integrity="sha384-NyZZwdZnBDnsKMWh75B8yz6prI19xbY+AdpHkQZNlUrOsfefd9KgRuGia/nNQNJi" as="fetch" type="application/wasm"></head>
 <body>
-	<div id="app">You must enable JS to view this page.</div>
-
-	<script src="elm.js"></script>
-	<script>
-		var app = Elm.Main.init({
-			node: document.getElementById("app")
-		});      
-	</script>
 </body>
-
 </html>
