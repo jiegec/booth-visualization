@@ -1,0 +1,27 @@
+name: Rust CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: wasm32-unknown-unknown
+    
+    - name: Install trunk
+      run: |
+        cargo install --locked trunk
+    
+    - name: Build with Trunk
+      run: trunk build --release --public-url /booth-visualization/
+    
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: dist
