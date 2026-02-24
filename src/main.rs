@@ -9,7 +9,7 @@ enum Action {
 }
 
 impl Action {
-    fn to_string(&self) -> &'static str {
+    fn name(&self) -> &'static str {
         match self {
             Action::Init => "Init",
             Action::Add => "Add",
@@ -151,7 +151,13 @@ impl Component for Model {
             Msg::InputBits(input) => {
                 if let Ok(val) = input.parse::<i32>() {
                     self.bits = val.clamp(1, 15);
+                    if let Ok(val) = self.input_a.parse::<i32>() {
+                        self.a = clamp_input(val, self.bits);
+                    }
                     self.a = clamp_input(self.a, self.bits);
+                    if let Ok(val) = self.input_b.parse::<i32>() {
+                        self.b = clamp_input(val, self.bits);
+                    }
                     self.b = clamp_input(self.b, self.bits);
                 }
                 true
@@ -293,7 +299,7 @@ impl Model {
             <tr>
                 <td>{ step.shift_steps }</td>
                 <td>{ step.step }</td>
-                <td>{ step.action.to_string() }</td>
+                <td>{ step.action.name() }</td>
                 <td>{ self.show_int_in_table(step.product, step.bits * 2 + 1) }</td>
                 <td>{ step.additional }</td>
             </tr>
